@@ -27,9 +27,9 @@ OR
 ### Configuration
 
 There are four items which must be configured:  
-1. Google Client Id
-2. Google Client Secret
-3. Website URL
+1. Google Client Id  
+2. Google Client Secret  
+3. Website URL  
 4. Email list
 
 The Google client id and secret can be modified in the `service.js` file under `system/service.js`
