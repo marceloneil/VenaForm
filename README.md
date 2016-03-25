@@ -3,7 +3,7 @@
 
 ### Installation
 ```
-~$ curl https://github.com/marceloneil/VenaForm/install.sh | sh
+~$ curl https://raw.githubusercontent.com/marceloneil/VenaForm/master/install.sh | sh
 ```
 OR
 ```
