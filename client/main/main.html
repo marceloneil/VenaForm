@@ -1,0 +1,51 @@
+<!-- Toolbar -->
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <h2>
+      <span>On/Off-Boarding</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-primary" ng-cloak ng-show="main.isLoggedIn()" ui-sref="newEmployee">New Employee</md-button>
+    <md-button class="md-primary" ng-cloak ng-show="main.isLoggedIn()" ui-sref="positionChange">Position Change</md-button>
+    <md-button class="md-warn" ng-cloak ng-show="main.isLoggedIn()" ui-sref="termination">Termination</md-button>
+    <md-button class="md-warn" ng-cloak ng-show="main.isLoggedIn()" ui-sref="resignation">Resignation</md-button>
+    <md-button ng-cloak ng-click="main.login()" ng-hide="main.isLoggedIn()">Log In</md-button>
+    <md-button ng-cloak ng-click="main.logout()" ng-show="main.isLoggedIn()">Log Out</md-button>
+  </div>
+</md-toolbar>
+
+<div ng-if="main.isLoggedIn()" layout="column" class="md-inline-form" style="margin-top: 100px" flex-offset="20" flex="60">
+  <md-content layout-gt-sm="row" style="overflow: hidden" class="tr">
+    <md-input-container class="md-block" flex-gt-sm>
+      <label>Search</label>
+      <input ng-model="main.filter.data.A.name">
+    </md-input-container>
+    <div flex="50"></div>
+    <md-input-container class="md-block" flex-gt-sm>
+      <label>Filter</label>
+      <md-select ng-model="main.filter.type">
+        <md-option value=''>All</md-option>
+        <md-option ng-repeat="s in main.selections" value="{{s}}">{{s}}</md-option>
+      </md-select>
+    </md-input-container>
+  </md-content>
+  <div flex="grow"></div>
+  <p ng-if="main.forms">In progress</p>
+  <md-card class="formItem" layout-padding ng-if="item.state == 'edit'" ui-sref="{{item.link}}({ formId: item._id })" ng-repeat="item in main.forms | filter:main.filter">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{item.type}}  -  {{item.data.A.name}}</span>
+        <span class="md-subhead">Authors: {{main.listify(item.authors)}}</span>
+      </md-card-title-text>
+    </md-card-title>
+  </md-card>
+  <p ng-if="main.forms">Completed</p>
+  <md-card class="formItem" layout-padding ng-if="item.state == 'complete'" ui-sref="{{item.link}}({ formId: item._id })" ng-repeat="item in main.forms | filter:main.filter">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{item.type}}  -  {{item.data.A.name}}</span>
+        <span class="md-subhead">Authors: {{main.listify(item.authors)}}</span>
+      </md-card-title-text>
+    </md-card-title>
+  </md-card>
+</div>

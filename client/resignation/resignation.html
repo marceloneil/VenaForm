@@ -1,0 +1,636 @@
+<!-- Toolbar -->
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <md-button ui-sref="main">Back</md-button>
+    <h2>
+      <span>Resignation</span>
+    </h2>
+  </div>
+</md-toolbar>
+
+<!-- Onboarding/Offboarding Form -->
+<div layout="column" class="md-inline-form" style="margin-top: 100px" flex-offset="20" flex="60">
+  <form>
+
+    <!-- Section A - to be completed by HR -->
+    <md-card layout-padding>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Section A - to be completed by HR</span>
+          <span class="md-subhead">Employee Information</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <!-- Employee Information -->
+      <md-content layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Name</label>
+          <input ng-model="resignation.form.data.A.name">
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Email</label>
+          <input ng-model="resignation.form.data.A.email" type="email">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <div flex="noshrink"></div>
+        <md-card-content>
+          {{resignation.fix(resignation.form.A)}}
+        </md-card-content>
+        <md-button class="md-raised md-primary" ng-click="resignation.save('A')">Save</md-button>
+      </md-content>
+    </md-card>
+
+    <!-- Section B - to be completed by HR -->
+    <md-card layout-padding>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Section B - to be completed by HR</span>
+          <span class="md-subhead">Employment Information</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <!-- Employment Information -->
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Department Name</label>
+          <input ng-model="resignation.form.data.B.departmentName">
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <div layout="column" flex="nogrow">
+          <label ng-if="resignation.form.data.B.lastDayWorked" class="md-caption" style="margin-left: 64px; color: rgba(0,0,0,0.54);">Last Day Worked</label>
+          <md-datepicker ng-if="!resignation.form.data.B.lastDayWorked" ng-model="resignation.form.data.B.lastDayWorked" md-placeholder="Last Day Worked"></md-datepicker>
+          <md-datepicker ng-if="resignation.form.data.B.lastDayWorked" style="margin-top: 0px" ng-model="resignation.form.data.B.lastDayWorked" md-placeholder="Last Day Worked"></md-datepicker>
+        </div>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Manager</label>
+          <input ng-model="resignation.form.data.B.manager">
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <div layout="column" flex="nogrow">
+          <label ng-if="resignation.form.data.B.lastDayPaid" class="md-caption" style="margin-left: 64px; color: rgba(0,0,0,0.54);">Last Day Paid</label>
+          <md-datepicker ng-if="!resignation.form.data.B.lastDayPaid" ng-model="resignation.form.data.B.lastDayPaid" md-placeholder="Last Day Paid"></md-datepicker>
+          <md-datepicker ng-if="resignation.form.data.B.lastDayPaid" style="margin-top: 0px" ng-model="resignation.form.data.B.lastDayPaid" md-placeholder="Last Day Paid"></md-datepicker>
+        </div>
+        <div class="hint">Specify last date paid if different from last day worked and if access will be in place beyond last day worked</div>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <div flex="noshrink"></div>
+        <md-card-content>
+          {{resignation.fix(resignation.form.B)}}
+        </md-card-content>
+        <md-button class="md-raised md-primary" ng-click="resignation.save('B')">Save</md-button>
+      </md-content>
+    </md-card>
+
+    <!-- Section C - to be completed by Office Admin -->
+    <md-card layout-padding>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Section C - to be completed by Office Admin</span>
+          <span class="md-subhead">Equipment, Systems & Access</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <!-- Equipment, Systems & Access -->
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Access Badge Returned</label>
+          <md-select ng-model="resignation.form.data.C.badge.result">
+            <md-option ng-repeat="s in resignation.selections2" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.badge.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Desk/Office Keys Returned</label>
+          <md-select ng-model="resignation.form.data.C.keys.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.keys.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>OpenVoice Account Cancelled</label>
+          <md-select ng-model="resignation.form.data.C.openvoice.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.openvoice.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>GoToMeeting Account Cancelled</label>
+          <md-select ng-model="resignation.form.data.C.gotomeeting.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.gotomeeting.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Egencia Travel Account Cancelled</label>
+          <md-select ng-model="resignation.form.data.C.egencia.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.egencia.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Removed from Vacation Tracking</label>
+          <md-select ng-model="resignation.form.data.C.tracking.result">
+            <md-option ng-repeat="s in resignation.selections2" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.tracking.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Parking Card Returned</label>
+          <md-select ng-model="resignation.form.data.C.parking.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.parking.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Gym Membership Cancelled</label>
+          <md-select ng-model="resignation.form.data.C.gym.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.C.gym.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Amount Owning until End of Subscription</label>
+          <input ng-model="resignation.form.data.C.gym.amount" type="number" step="0.01">
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-datepicker ng-model="resignation.form.data.C.gym.end" md-placeholder="End Date"></md-datepicker>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <div flex="noshrink"></div>
+        <md-card-content>
+          {{resignation.fix(resignation.form.C)}}
+        </md-card-content>
+        <md-button class="md-raised md-primary" ng-click="resignation.save('C')">Save</md-button>
+      </md-content>
+    </md-card>
+
+    <!-- Section D - to be completed by Employee Manager (with assistance as needed from IT, DevOps, etc.) -->
+    <md-card layout-padding>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Section D - to be completed by Employee Manager (with assistance as needed from IT, DevOps, etc.)</span>
+          <span class="md-subhead">Department Specific Access - Finance</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <!-- Department Specific Access - Finance -->
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>NetSuite</label>
+          <md-select ng-model="resignation.form.data.D.one.netsuite.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.one.netsuite.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>QuickBooks</label>
+          <md-select ng-model="resignation.form.data.D.one.quickbooks.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.one.quickbooks.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>ADP</label>
+          <md-select ng-model="resignation.form.data.D.one.adp.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.one.adp.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <div flex="noshrink"></div>
+        <md-card-content>
+          {{resignation.fix(resignation.form.D1)}}
+        </md-card-content>
+        <md-button class="md-raised md-primary" ng-click="resignation.save('D1')">Save</md-button>
+      </md-content>
+
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-subhead">Department Specific Access - Product Development, QA, Product Management, IT, Customer Support</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <!-- Department Specific Access - Product Development, QA, Product Management, IT, Customer Support -->
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Vena Cloud (Production Tenants)</label>
+          <md-select ng-model="resignation.form.data.D.two.venaproduction.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.venaproduction.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Vena Cloud (Staging Tenants)</label>
+          <md-select ng-model="resignation.form.data.D.two.venastaging.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.venastaging.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Vena Cloud (Dev Tenants)</label>
+          <md-select ng-model="resignation.form.data.D.two.venadev.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.venadev.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Pivotal Tracker</label>
+          <md-select ng-model="resignation.form.data.D.two.pivotal.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.pivotal.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>TestRail</label>
+          <md-select ng-model="resignation.form.data.D.two.testrail.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.testrail.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>GitHub (Account & Key)</label>
+          <md-select ng-model="resignation.form.data.D.two.git.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.git.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Active Directory / LDAP (VPN, Jenkins, Splunk)</label>
+          <md-select ng-model="resignation.form.data.D.two.active.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.active.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>SSH Key (Add / Remove)</label>
+          <md-select ng-model="resignation.form.data.D.two.ssh.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.ssh.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Loggly</label>
+          <md-select ng-model="resignation.form.data.D.two.loggly.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.loggly.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>AWS (Accounts, API keys)</label>
+          <md-select ng-model="resignation.form.data.D.two.aws.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.aws.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Pager Duty</label>
+          <md-select ng-model="resignation.form.data.D.two.pager.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.two.pager.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <div flex="noshrink"></div>
+        <md-card-content>
+          {{resignation.fix(resignation.form.D2)}}
+        </md-card-content>
+        <md-button class="md-raised md-primary" ng-click="resignation.save('D2')">Save</md-button>
+      </md-content>
+
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-subhead">General IT Access</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <!-- General IT Access -->
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Desktop/Laptop Returned</label>
+          <md-select ng-model="resignation.form.data.D.three.computer.result">
+            <md-option ng-repeat="s in resignation.selections2" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.computer.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Model Number</label>
+          <input ng-model="resignation.form.data.D.three.computer.model">
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Password</label>
+          <input ng-model="resignation.form.data.D.three.computer.password" type="email">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Access to Dropbox Revoked</label>
+          <md-select ng-model="resignation.form.data.D.three.dropbox.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.dropbox.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Access to Google Drive Revoked</label>
+          <md-select ng-model="resignation.form.data.D.three.drive.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.drive.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Removed from Distribution Lists</label>
+          <md-select ng-model="resignation.form.data.D.three.dist.result">
+            <md-option ng-repeat="s in resignation.selections2" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.dist.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Email Account Disabled</label>
+          <md-select ng-model="resignation.form.data.D.three.email.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.email.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Forward Email To</label>
+          <input ng-model="resignation.form.data.D.three.forwardto.result" type="email">
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.forwardto.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Email Removed & Archived</label>
+          <md-select ng-model="resignation.form.data.D.three.emailremove.result">
+            <md-option ng-repeat="s in resignation.selections2" value="{{s}}">{{s}}</md-option>
+          </md-select>
+          <div class="hint">Select yes if email is not being forwarded</div>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.emailremove.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Salesforce Account Disabled</label>
+          <md-select ng-model="resignation.form.data.D.three.salesforce.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.salesforce.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Desk Equipment Removed</label>
+          <md-select ng-model="resignation.form.data.D.three.desk.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.desk.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Phone Extension Removed</label>
+          <md-select ng-model="resignation.form.data.D.three.extension.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+          <div class="hint">All voicemail will be deleted upon removal</div>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.extension.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Cell Phone Returned</label>
+          <md-select ng-model="resignation.form.data.D.three.phone.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.phone.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Cell Phone Number Disabled</label>
+          <md-select ng-model="resignation.form.data.D.three.number.result">
+            <md-option ng-repeat="s in resignation.selections" value="{{s}}">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div flex="5" hide-xs hide-sm><!-- Spacer --></div>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Comments</label>
+          <input ng-model="resignation.form.data.D.three.number.comments">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Additional Notes</label>
+          <input ng-model="resignation.form.data.D.three.itnotes">
+        </md-input-container>
+      </md-content>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <div flex="noshrink"></div>
+        <md-card-content>
+          {{resignation.fix(resignation.form.D3)}}
+        </md-card-content>
+        <md-button class="md-raised md-primary" ng-click="resignation.save('D3')">Save</md-button>
+      </md-content>
+    </md-card>
+
+    <!-- Submit and info -->
+    <md-card layout-padding>
+      <md-content layout-gt-sm="row" style="overflow: hidden">
+        <md-card-content>
+          Authors: {{resignation.listify(resignation.form.authors)}}
+        </md-card-content>
+        <div flex="noshrink"></div>
+        <md-button class="md-raised md-warn" ng-click="resignation.delete()">Delete</md-button>
+        <md-button ng-show="resignation.form.state == 'edit'" class="md-raised md-primary" ng-click="resignation.submit()">Complete Form</md-button>
+      </md-content>
+    </md-card>
+  </form>
+</div>
