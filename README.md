@@ -1,7 +1,9 @@
 # Vena On/Off-boarding
-## A meteor app made for easier on/off-boarding at [Vena Solutions](http://venasolutions.com/)
+
+### A meteor app made for easier on/off-boarding at [Vena Solutions](http://venasolutions.com/)
 
 ### Installation
+
 ```
 ~$ curl https://raw.githubusercontent.com/marceloneil/VenaForm/master/install.sh | sh
 ```
@@ -24,6 +26,7 @@ OR
 ~/form$ meteor add accounts-google
 ~/form$ meteor add service-configuration
 ```
+
 ### Configuration
 
 There are four items which must be configured:  
