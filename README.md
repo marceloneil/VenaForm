@@ -1,7 +1,9 @@
 # Vena On/Off-boarding
-## A meteor app made for easier on/off-boarding at [Vena Solutions](http://venasolutions.com/)
+
+### A meteor app made for easier on/off-boarding at [Vena Solutions](http://venasolutions.com/)
 
 ### Installation
+
 ```
 ~$ curl https://raw.githubusercontent.com/marceloneil/VenaForm/master/install.sh | sh
 ```
@@ -24,12 +26,13 @@ OR
 ~/form$ meteor add accounts-google
 ~/form$ meteor add service-configuration
 ```
+
 ### Configuration
 
 There are four items which must be configured:  
-1. Google Client Id
-2. Google Client Secret
-3. Website URL
+1. Google Client Id  
+2. Google Client Secret  
+3. Website URL  
 4. Email list
 
 The Google client id and secret can be modified in the `service.js` file under `system/service.js`
