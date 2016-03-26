@@ -624,7 +624,7 @@
     <!-- Submit and info -->
     <md-card layout-padding>
       <md-content layout-gt-sm="row" style="overflow: hidden">
-        <md-card-content>
+        <md-card-content ng-show="termination.form.authors">
           Authors: {{termination.listify(termination.form.authors)}}
         </md-card-content>
         <div flex="noshrink"></div>
