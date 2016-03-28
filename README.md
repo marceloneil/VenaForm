@@ -5,26 +5,9 @@
 ### Installation
 
 ```
-~$ curl https://raw.githubusercontent.com/marceloneil/VenaForm/master/install.sh | sh
-```
-OR
-```
 ~$ curl https://install.meteor.com/ | sh
-~$ meteor create form
-~$ cd form
-~/form$ rm form.*
-~/form$ rm install.sh
-~/form$ git clone https://github.com/marceloneil/VenaForm.git
-~/form$ meteor remove blaze-html-templates
-~/form$ meteor remove ecmascript
-~/form$ meteor remove twbs:bootstrap
-~/form$ meteor remove insecure
-~/form$ meteor add angular
-~/form$ meteor add angularui:angular-ui-router
-~/form$ meteor add angular:angular-material
-~/form$ meteor add dotansimha:accounts-ui-angular
-~/form$ meteor add accounts-google
-~/form$ meteor add service-configuration
+~$ git clone https://github.com/marceloneil/VenaForm.git
+~$ cd VenaForm
 ```
 
 ### Configuration
@@ -64,4 +47,4 @@ angular.module('vena').constant('link',
 
 ### Running the application
 
-The application can be run with the command `meteor` while in the root directory `form`. The application will run on `localhost:3000`, although the port number can be changed with the `--port` flag.
+The application can be run with the command `meteor` while in the root directory `VenaForm`. The application will run on `localhost:3000`, although the port number can be changed with the `--port` flag.

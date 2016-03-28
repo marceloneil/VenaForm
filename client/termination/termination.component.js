@@ -1,37 +1,55 @@
+/*jshint esversion: 6 */
+
 angular.module('vena').directive('termination', function(){
   return {
     restrict: 'E',
     templateUrl: 'client/termination/termination.html',
     controllerAs: 'termination',
     reload: true,
-    controller: function($scope, $reactive, $state, $stateParams, emails, link){
+    controller: function($scope, $reactive, $state, $stateParams, send, auth){
       $reactive(this).attach($scope);
+
+      if(Math.floor((auth.expiresAt() - Date.now()) / 1000) < 1){
+        auth.logout();
+        $state.go('main');
+      }
 
       this.helpers({
         formVar: () => {
           return DB.findOne({ _id: $stateParams.formId });
         }
       });
+
       this.form = {};
       if(this.formVar){
         this.form = this.formVar;
       } else if(!this.formvar && $stateParams){
         $state.go('termination');
-      };
+      }
+
       this.form.type = 'Termination';
       this.form.link = 'termination';
+      this.selections = ['Yes','No','Not Applicable'];
+      this.selections2 = ['Yes','No'];
       if(!this.form.state)
         this.form.state = 'edit';
+
       this.save = (section) => {
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent('Saving')
+            .position('top right')
+            .hideDelay(3000)
+        );
         if(section){
-          this.form[section] = new Array([Meteor.user().profile.name, new Date()]);
-        };
+          this.form[section] = new Array([auth.name(), new Date()]);
+        }
         if(this.form.authors){
-          if (this.form.authors.indexOf(Meteor.user().profile.name) < 0) {
-            this.form.authors.push(Meteor.user().profile.name);
+          if (this.form.authors.indexOf(auth.name()) < 0) {
+            this.form.authors.push(auth.name());
           }
         } else {
-          this.form.authors = new Array(Meteor.user().profile.name);
+          this.form.authors = new Array(auth.name());
         }
         if($stateParams.formId){
           DB.update({ _id: $stateParams.formId }, {
@@ -49,59 +67,59 @@ angular.module('vena').directive('termination', function(){
           });
         } else {
           DB.insert(this.form, function(err,id){
-            var message = `To: `+ emails.toString() + `
-From: Vena On/Off-boarding <`+ Meteor.user().services.google.email +`>
-Subject: Termination Form
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-
-Please go to <a href=3D"`+ link + `/termination/` + id + `">this link</a>`;
-            var encodedMail= CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(message)).replace(/\+/g, "-").replace(/\//g, "_");
-            Meteor.http.post('https://www.googleapis.com/gmail/v1/users/me/messages/send', {
-                'headers' : {
-                    'Authorization': "Bearer " + Meteor.user().services.google.accessToken,
-                    'Content-Type': 'application/json'
-                },
-                'content': JSON.stringify({
-                    "raw": encodedMail
-                })
-              }, function(err){
-                if(err){
-                  console.error('err');
-                }
-              });
-            $state.go('termination',{formId: id});
-            if(err)
+            if(err){
               console.error(err);
+            }
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent('Sending Emails')
+                .position('top right')
+                .hideDelay(3000)
+            );
+            send('Termination', '/termination/', id, function(err){
+              if(err){
+                auth.login(function(){
+                  send('Termination', '/termination/', id, function(err){
+                    if(err){
+                      console.error(err);
+                    }
+                  });
+                });
+              }
+            });
+            $state.go('termination', {formId: id});
           });
         }
       };
+
       this.fix = (inp) => {
         if(inp){
           var string = inp[inp.length-1];
           string = string[0] + ' - ' + string[1].toDateString() + ' ' + string[1].toLocaleTimeString();
-          return string
+          return string;
         } else {
-          return
+          return;
         }
       };
+
       this.listify = (inp) => {
         if(inp){
           var string = inp[0];
           for(var i = 1; i < inp.length; i++){
             string += ', ' + inp[i];
           }
-          return string
+          return string;
         }
-        return
+        return;
       };
+
       this.submit = () => {
         if(this.form.A && this.form.B && this.form.C && this.form.D1 && this.form.D2 && this.form.D3){
           this.form.state = 'complete';
           this.save();
         }
       };
+
       this.delete = () => {
         DB.remove({ _id: $stateParams.formId }, function(err){
           if(err)
@@ -109,8 +127,6 @@ Please go to <a href=3D"`+ link + `/termination/` + id + `">this link</a>`;
         });
         $state.go('main');
       };
-      this.selections = ['Yes','No','Not Applicable'];
-      this.selections2 = ['Yes','No'];
     }
-  }
+  };
 });
