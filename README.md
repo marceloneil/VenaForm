@@ -26,8 +26,8 @@ ServiceConfiguration.configurations.remove({
 });
 ServiceConfiguration.configurations.insert({
   service: "google",
-  clientId: "<Client ID>",
   loginStyle: "popup",
+  clientId: "<Client ID>",
   secret: "<Secret>"
 });
 ```

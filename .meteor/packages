@@ -20,3 +20,4 @@ angular:angular-material
 accounts-google
 service-configuration
 autopublish
+http
