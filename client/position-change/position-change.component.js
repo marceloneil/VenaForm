@@ -6,7 +6,7 @@ angular.module('vena').directive('positionChange', function(){
     templateUrl: 'client/position-change/position-change.html',
     controllerAs: 'positionChange',
     reload: true,
-    controller: function($scope, $reactive, $state, $stateParams, send, auth){
+    controller: function($scope, $reactive, $state, $stateParams, $mdToast, send, auth){
       $reactive(this).attach($scope);
 
       if(Math.floor((auth.expiresAt() - Date.now()) / 1000) < 1){
@@ -80,7 +80,9 @@ angular.module('vena').directive('positionChange', function(){
             send('Position Change', '/position-change/', id, function(err){
               if(err){
                 console.log('here');
-                auth.login(function(){
+                auth.login(function(err){
+                  if(err)
+                    console.error(err);
                   send('Position Change', '/position-change/', id, function(err){
                     if(err){
                       console.error(err);

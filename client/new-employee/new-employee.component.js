@@ -77,7 +77,10 @@ angular.module('vena').directive('newEmployee', function(){
             );
             send('New Employee', '/new-employee/', id, function(err){
               if(err){
-                auth.login(function(){
+                console.error(err);
+                auth.login(function(err){
+                  if(err)
+                    console.error(err);
                   send('New Employee', '/new-employee/', id, function(err){
                     if(err){
                       console.error(err);

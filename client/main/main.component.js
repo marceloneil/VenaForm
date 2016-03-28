@@ -16,7 +16,12 @@ angular.module('vena').directive('main', function(){
       this.filter = {};
       this.filter.type = '';
 
-      this.login = auth.login;
+      this.login = () => {
+        auth.login(function(err){
+          if(err)
+            console.error(err);
+        });
+      };
       this.logout = auth.logout;
       this.isLoggedIn = auth.isLoggedIn;
 

@@ -12,9 +12,7 @@ angular.module('vena').factory('auth', function(){
         'https://www.googleapis.com/auth/gmail.modify',
         'https://www.googleapis.com/auth/gmail.send']
     },function(err){
-      if(err)
-        console.error(err);
-      callback();
+        callback(err);
     });
   };
 

@@ -6,7 +6,7 @@ angular.module('vena').directive('resignation', function(){
     templateUrl: 'client/resignation/resignation.html',
     controllerAs: 'resignation',
     reload: true,
-    controller: function($scope, $reactive, $state, $stateParams, send, auth){
+    controller: function($scope, $reactive, $state, $stateParams, $mdToast, send, auth){
       $reactive(this).attach($scope);
 
       if(Math.floor((auth.expiresAt() - Date.now()) / 1000) < 1){
@@ -78,7 +78,9 @@ angular.module('vena').directive('resignation', function(){
             );
             send('Resignation', '/resignation/', id, function(err){
               if(err){
-                auth.login(function(){
+                auth.login(function(err){
+                  if(err)
+                    console.error(err);
                   send('Resignation', '/resignation/', id, function(err){
                     if(err){
                       console.error(err);
